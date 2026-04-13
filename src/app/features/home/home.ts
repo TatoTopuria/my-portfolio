@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
       title: '',
       description:
         'Software Engineer and SDET delivering .NET/C#, Spring/Java, Node.js, Angular, React, and Next.js solutions with strong test automation and CI/CD practices.',
+      url: '/',
     });
   }
 }

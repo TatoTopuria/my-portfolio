@@ -66,7 +66,7 @@ export const PROJECTS: Project[] = [
     techStack: ['Angular', 'TypeScript', 'Tailwind CSS', 'SSR', 'Vitest', 'Playwright'],
     image: '/images/my-portfolio.png',
     githubUrl: 'https://github.com/TatoTopuria/my-portfolio',
-    demoUrl: 'https://tatotopuria.vercel.app/',
+    demoUrl: 'https://tatotopuria.vercel.app',
     featured: true,
     category: 'web',
     year: 2025,

@@ -112,6 +112,10 @@ export class ProjectDetailComponent implements OnInit {
       this.seoService.updateSeo({
         title: this.project.title,
         description: this.project.description,
+        image: this.project.image
+          ? `https://tatotopuria.vercel.app${this.project.image}`
+          : undefined,
+        url: `/projects/${this.project.slug}`,
       });
     }
   }

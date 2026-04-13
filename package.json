@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "generate:seo": "node scripts/generate-seo.mjs",
+    "prestart": "npm run generate:seo",
     "start": "ng serve",
+    "prebuild": "npm run generate:seo",
     "build": "ng build",
+    "prebuild:prod": "npm run generate:seo",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
