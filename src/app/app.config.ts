@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import {
   PreloadAllModules,
   provideRouter,
@@ -13,11 +17,48 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 
 import { routes } from './app.routes';
 import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
-import { ENVIRONMENT } from './core/tokens/environment.token';
+import { ENVIRONMENT, Environment } from './core/tokens/environment.token';
 import { environment } from '../environments/environment';
+
+type RuntimeEnvironmentOverrides = Partial<
+  Pick<Environment, 'emailjsServiceId' | 'emailjsTemplateId' | 'emailjsPublicKey'>
+>;
+
+const runtimeEnvironment: Environment = { ...environment };
+
+async function loadRuntimeEnvironment(): Promise<void> {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    const response = await fetch('/runtime-config.json', { cache: 'no-store' });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const runtimeConfig = (await response.json()) as RuntimeEnvironmentOverrides;
+
+    if (typeof runtimeConfig.emailjsServiceId === 'string') {
+      runtimeEnvironment.emailjsServiceId = runtimeConfig.emailjsServiceId.trim();
+    }
+
+    if (typeof runtimeConfig.emailjsTemplateId === 'string') {
+      runtimeEnvironment.emailjsTemplateId = runtimeConfig.emailjsTemplateId.trim();
+    }
+
+    if (typeof runtimeConfig.emailjsPublicKey === 'string') {
+      runtimeEnvironment.emailjsPublicKey = runtimeConfig.emailjsPublicKey.trim();
+    }
+  } catch {
+    // Ignore runtime config fetch failures and fall back to build-time environment values.
+  }
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(loadRuntimeEnvironment),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
@@ -29,6 +70,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([httpErrorInterceptor]), withFetch()),
     provideAnimationsAsync(),
     provideClientHydration(withEventReplay()),
-    { provide: ENVIRONMENT, useValue: environment },
+    { provide: ENVIRONMENT, useValue: runtimeEnvironment },
   ],
 };

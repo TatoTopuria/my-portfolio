@@ -13,6 +13,17 @@ const publicDir = path.join(repoRoot, 'public');
 const baseUrl = 'https://tatotopuria.vercel.app';
 const sitemapPath = path.join(publicDir, 'sitemap.xml');
 const robotsPath = path.join(publicDir, 'robots.txt');
+const runtimeConfigPath = path.join(publicDir, 'runtime-config.json');
+
+function getFirstEnvValue(...values) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim().length > 0) {
+      return value.trim();
+    }
+  }
+
+  return '';
+}
 
 function escapeXml(value) {
   return value
@@ -124,6 +135,28 @@ function buildRobotsTxt() {
   ].join('\n');
 }
 
+function buildRuntimeConfig() {
+  const runtimeConfig = {
+    emailjsServiceId: getFirstEnvValue(
+      process.env.NG_APP_EMAILJS_SERVICE_ID,
+      process.env.VITE_EMAILJS_SERVICE_ID,
+      process.env.EMAILJS_SERVICE_ID,
+    ),
+    emailjsTemplateId: getFirstEnvValue(
+      process.env.NG_APP_EMAILJS_TEMPLATE_ID,
+      process.env.VITE_EMAILJS_TEMPLATE_ID,
+      process.env.EMAILJS_TEMPLATE_ID,
+    ),
+    emailjsPublicKey: getFirstEnvValue(
+      process.env.NG_APP_EMAILJS_PUBLIC_KEY,
+      process.env.VITE_EMAILJS_PUBLIC_KEY,
+      process.env.EMAILJS_PUBLIC_KEY,
+    ),
+  };
+
+  return `${JSON.stringify(runtimeConfig, null, 2)}\n`;
+}
+
 async function main() {
   const sourceText = await readFile(projectsDataPath, 'utf8');
   const sourceFile = ts.createSourceFile(
@@ -143,8 +176,9 @@ async function main() {
   await mkdir(publicDir, { recursive: true });
   await writeFile(sitemapPath, buildSitemapXml(projectSlugs), 'utf8');
   await writeFile(robotsPath, buildRobotsTxt(), 'utf8');
+  await writeFile(runtimeConfigPath, buildRuntimeConfig(), 'utf8');
 
-  console.log(`Generated sitemap for ${projectSlugs.length + 1} routes.`);
+  console.log(`Generated sitemap for ${projectSlugs.length + 1} routes and runtime config.`);
 }
 
 await main();
