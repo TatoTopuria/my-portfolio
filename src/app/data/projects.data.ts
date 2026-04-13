@@ -64,7 +64,7 @@ export const PROJECTS: Project[] = [
     longDescription:
       'A feature-rich portfolio site with SSR, dark mode, rich animations, and accessible design. Built with Angular 21 standalone components, signal-based state, and deployed to Vercel.',
     techStack: ['Angular', 'TypeScript', 'Tailwind CSS', 'SSR', 'Vitest', 'Playwright'],
-    image: '/images/my-portfolio.svg',
+    image: '/images/my-portfolio.png',
     githubUrl: 'https://github.com/TatoTopuria/my-portfolio',
     demoUrl: 'https://tatotopuria.vercel.app/',
     featured: true,
