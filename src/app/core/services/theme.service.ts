@@ -30,6 +30,7 @@ export class ThemeService {
     if (!isPlatformBrowser(this.platformId)) return false;
     const stored = localStorage.getItem(this.storageKey);
     if (stored) return stored === 'dark';
+    if (typeof window.matchMedia !== 'function') return false;
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 }
