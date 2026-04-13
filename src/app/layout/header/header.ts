@@ -167,6 +167,7 @@ export class HeaderComponent {
     { label: 'Skills', section: 'skills' },
     { label: 'Projects', section: 'projects' },
     { label: 'Experience', section: 'experience' },
+    { label: 'Certifications', section: 'certifications' },
     { label: 'Software Engineering', section: 'software-engineering' },
     { label: 'Test Automation', section: 'test-automation' },
     { label: 'GitHub', section: 'github-activity' },
