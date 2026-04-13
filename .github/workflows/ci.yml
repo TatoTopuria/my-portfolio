@@ -5,6 +5,16 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Vercel deployment target'
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - production
 
 env:
   NODE_VERSION: '22'
@@ -93,4 +103,26 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
+
+  deploy-manual:
+    name: Manual Deploy to Vercel
+    needs: e2e
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm install -g vercel
+      - run: |
+          if [ "${{ github.event.inputs.deploy_target }}" = "production" ]; then
+            vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+          else
+            vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
