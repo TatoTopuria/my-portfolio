@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './layout/header/header';
+import { FooterComponent } from './layout/footer/footer';
+import { SkipLinkComponent } from './layout/skip-link/skip-link';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, SkipLinkComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <app-skip-link />
+    <app-header />
+    <router-outlet />
+    <app-footer />
+  `,
 })
-export class App {
-  protected readonly title = signal('my-portfolio');
-}
+export class App {}

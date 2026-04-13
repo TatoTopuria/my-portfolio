@@ -10,6 +10,9 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+pnpm-debug.log*
+lerna-debug.log*
+*.log
 
 # IDEs and editors
 .idea/
@@ -29,6 +32,42 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.template
+*.local
+*.secret
+*.secrets
+*.credentials
+
+# Cloud and deployment local state
+.vercel/
+.netlify/
+.turbo/
+
+# Security-sensitive key material
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.der
+*.pub
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+
+# Temporary reports and tooling outputs
+playwright-report/
+test-results/
+.nyc_output/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -38,6 +77,9 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+tmp/
+temp/
+*.tmp
 
 # System files
 .DS_Store
