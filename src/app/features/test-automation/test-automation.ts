@@ -39,7 +39,7 @@ import { AnimateOnScrollDirective } from '../../core/directives/animate-on-scrol
         <!-- Framework + Code -->
         <div class="grid gap-12 md:grid-cols-2">
           <!-- Framework overview -->
-          <div appAnimateOnScroll animationClass="animate-slide-in-left" class="space-y-4">
+          <div appAnimateOnScroll animationClass="animate-slide-in-left" class="min-w-0 space-y-4">
             <h3 class="text-xl font-semibold text-white">Framework Highlights</h3>
             @for (feature of frameworkFeatures; track feature.title) {
               <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-4">
@@ -50,7 +50,12 @@ import { AnimateOnScrollDirective } from '../../core/directives/animate-on-scrol
           </div>
 
           <!-- Code sample -->
-          <div appAnimateOnScroll animationClass="animate-slide-in-right" [delay]="200">
+          <div
+            appAnimateOnScroll
+            animationClass="animate-slide-in-right"
+            [delay]="200"
+            class="min-w-0"
+          >
             <h3 class="mb-4 text-xl font-semibold text-white">Sample: E2E Test</h3>
             <app-code-snippet [code]="codeExample" language="typescript" />
           </div>

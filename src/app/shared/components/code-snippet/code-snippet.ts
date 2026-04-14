@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="overflow-hidden rounded-xl bg-slate-900 shadow-xl">
+    <div class="min-w-0 overflow-hidden rounded-xl bg-slate-900 shadow-xl">
       <div class="flex items-center gap-2 border-b border-slate-700 px-4 py-3">
         <span class="h-3 w-3 rounded-full bg-red-500"></span>
         <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
